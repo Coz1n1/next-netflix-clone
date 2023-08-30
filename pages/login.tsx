@@ -13,9 +13,7 @@ const Login = () => {
     setNavi(!navi);
   };
 
-  const login = useCallback(async () => {
-    console.log("chuj");
-  }, []);
+  const login = useCallback(async () => {}, []);
 
   const registration = useCallback(async () => {
     console.log(email + name + password);
