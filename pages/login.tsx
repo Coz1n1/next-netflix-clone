@@ -1,7 +1,9 @@
 import React, { useState, ChangeEvent, useCallback } from "react";
 import { Input } from "@/components/Input";
+import { signIn } from "next-auth/react";
 import Image from "next/image";
 import axios from "axios";
+import { FcGoogle } from "react-icons/fc";
 
 const Login = () => {
   const [navi, setNavi] = useState<boolean>(false);
@@ -13,21 +15,31 @@ const Login = () => {
     setNavi(!navi);
   };
 
-  const login = useCallback(async () => {}, []);
+  const login = useCallback(async () => {
+    try {
+      await signIn("credentials", {
+        email,
+        password,
+        callbackUrl: "/profile",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }, [email, password]);
 
   const registration = useCallback(async () => {
-    console.log(email + name + password);
-
     try {
       await axios.post("/api/registration", {
         name,
         email,
         password,
       });
+
+      login();
     } catch (error) {
       console.log(error);
     }
-  }, [name, email, password]);
+  }, [name, email, password, login]);
 
   return (
     <div className="relative h-screen w-screen bg-[url('/images/netflix_hero.jpg')] bg-no-repeat bg-center bg-fixed bg-cover">
@@ -73,11 +85,20 @@ const Login = () => {
             value={password}
           />
           <button
-            onClick={registration}
+            onClick={navi === false ? login : registration}
             className="mt-6 bg-red-600 w-full py-4 rounded-md text-white font-bold"
           >
             {navi ? "Register" : "Sign In"}
           </button>
+          <div className="flex flex-row items-center mt-2">
+            <span className="mr-1 text-zinc-400">or via</span>
+            <span
+              onClick={() => signIn("google", { callbackUrl: "/profile" })}
+              className="text-2xl cursor-pointer"
+            >
+              <FcGoogle />
+            </span>
+          </div>
           <div className="w-full flex justify-between mt-2">
             <span className="text-zinc-400 text-sm">
               <input type="checkbox"></input> Remember me

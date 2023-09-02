@@ -8,7 +8,6 @@ export default async function registerHandler(
 ) {
   try {
     const { name, email, password } = req.body;
-    console.log(name + email + password);
 
     const userExists = await prismadb.user.findUnique({
       where: {
@@ -16,7 +15,7 @@ export default async function registerHandler(
       },
     });
 
-    if (userExists) return res.json({ error: "User Exists" });
+    if (userExists) return res.status(422).json({ error: "User Exists" });
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
@@ -32,7 +31,6 @@ export default async function registerHandler(
 
     return res.status(200).json(user);
   } catch (error) {
-    console.log(error);
-    return res.status(400).end();
+    return res.status(400).json({ error: `Error: ${error}` });
   }
 }
