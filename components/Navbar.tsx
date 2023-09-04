@@ -4,7 +4,7 @@ import { AiOutlineSearch, AiFillCaretDown } from "react-icons/ai";
 
 export const Navbar = () => {
   return (
-    <div className="fixed w-screen bg-zinc-800 z-10">
+    <div className="fixed w-screen z-10">
       <div className="flex flex-row items-center px-16 py-2 justify-between">
         <div className="flex flex-row items-center">
           <img

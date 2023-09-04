@@ -1,0 +1,17 @@
+import { NextApiRequest, NextApiResponse } from "next";
+import prismadb from "@/lib/prismadb";
+import { serverAuth } from "@/lib/serverAuth";
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  try {
+    await serverAuth(req, res);
+    const movieList = await prismadb.movie.findMany();
+    return res.status(200).json(movieList);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).end();
+  }
+}
