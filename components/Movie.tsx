@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { MovieType } from "@/types";
 import { AiFillPlayCircle, AiFillCaretDown } from "react-icons/ai";
+import { FavouriteAdd } from "./FavouriteAdd";
 
 interface Props {
   data: MovieType;
@@ -31,7 +32,7 @@ const Movie: FC<Props> = ({ data }) => {
           <div className="flex flex-row items-center justify-between px-2 py-2">
             <div className="flex flex-row">
               <AiFillPlayCircle className="text-white text-2xl cursor-pointer" />
-              <AiFillPlayCircle className="text-white text-xl" />
+              <FavouriteAdd movieId={data.id} />
             </div>
             <div className="">
               <AiFillCaretDown className="text-white text-2xl cursor-pointer" />

@@ -5,6 +5,7 @@ import { Navbar } from "@/components/Navbar";
 import Billboard from "@/components/Billboard";
 import { MovieList } from "@/components/MovieList";
 import { useMovieList } from "@/hooks/useMovieList";
+import { useFavourites } from "@/hooks/useFavourites";
 
 export async function getServerSideProps(context: NextPageContext) {
   const session = await getSession(context);
@@ -26,6 +27,7 @@ export async function getServerSideProps(context: NextPageContext) {
 export default function Home() {
   const { data: user } = useCurrent();
   const { data: movieList = [] } = useMovieList();
+  const { data: favouriteList = [] } = useFavourites();
 
   return (
     <>
@@ -33,6 +35,7 @@ export default function Home() {
         <Navbar />
         <Billboard />
         <MovieList title="Popular" data={movieList} />
+        <MovieList title="My Favourites" data={favouriteList} />
         <div className="h-32">
           Netflix Clone NextJS hello: {user?.name}
           <button className="w-32 bg-red-600 text-xl" onClick={() => signOut()}>
