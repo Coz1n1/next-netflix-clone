@@ -6,7 +6,7 @@ interface Props {
 
 export const NavItem: FC<Props> = ({ name }) => {
   return (
-    <div className="text-white text-2xl hover:text-zinc-400 cursor-pointer transition duration-500">
+    <div className="text-white text-xl hover:text-zinc-400 cursor-pointer transition duration-500">
       {name}
     </div>
   );

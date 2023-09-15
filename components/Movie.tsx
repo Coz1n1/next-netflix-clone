@@ -1,15 +1,24 @@
-import React, { FC } from "react";
+import React, { FC, useCallback } from "react";
 import { MovieType } from "@/types";
 import { AiFillPlayCircle, AiFillCaretDown } from "react-icons/ai";
 import { FavouriteAdd } from "./FavouriteAdd";
+import { useRouter } from "next/router";
+import useInfoModal from "@/hooks/useInfoModal";
 
 interface Props {
   data: MovieType;
 }
 
 const Movie: FC<Props> = ({ data }) => {
+  const router = useRouter();
+  const { openModal } = useInfoModal();
+
+  const handleOpen = useCallback(() => {
+    openModal(data?.id);
+  }, [openModal, data?.id]);
+
   return (
-    <div className="group relative h-[8vw]">
+    <div className="group relative h-36">
       <img
         src={data.thumbnailUrl}
         alt="Movie Card"
@@ -19,7 +28,7 @@ const Movie: FC<Props> = ({ data }) => {
         <img
           src={data.thumbnailUrl}
           alt="Movie Card"
-          className="cursor-pointer object-cover h-[8vw] group-hover:rounded-t-md"
+          className="cursor-pointer object-cover h-36 group-hover:rounded-t-md w-full"
         />
         <div className="bg-zinc-600 z-10 absolute w-full group-hover:rounded-b-md">
           <div className="text-green-400 font-bold px-2 py-1">
@@ -31,10 +40,13 @@ const Movie: FC<Props> = ({ data }) => {
           </div>
           <div className="flex flex-row items-center justify-between px-2 py-2">
             <div className="flex flex-row">
-              <AiFillPlayCircle className="text-white text-2xl cursor-pointer" />
-              <FavouriteAdd movieId={data.id} />
+              <AiFillPlayCircle
+                className="text-white text-2xl cursor-pointer"
+                onClick={() => router.push(`/watch/${data?.id}`)}
+              />
+              <FavouriteAdd movieId={data?.id} />
             </div>
-            <div className="">
+            <div className="" onClick={handleOpen}>
               <AiFillCaretDown className="text-white text-2xl cursor-pointer" />
             </div>
           </div>
